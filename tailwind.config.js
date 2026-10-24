@@ -8,6 +8,24 @@ export default {
   theme: {
     extend: {
       colors: {
+        // FoodBridge brand palette
+        brand: {
+          50: '#EEF8F1',
+          100: '#D9F0E1',
+          200: '#B4E2C7',
+          300: '#82CEA5',
+          400: '#4DB57F',
+          500: '#279C61',
+          600: '#1A804D',
+          700: '#16663F',
+          800: '#145134',
+          900: '#11432C',
+          950: '#08271A',
+        },
+        canvas: '#F5F8F2',
+        line: '#E7EEE3',
+        ink: '#152019',
+        muted: '#5D6B61',
         forest: {
           50: '#f0fdf7',
           100: '#d1fae5',

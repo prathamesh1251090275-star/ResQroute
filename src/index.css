@@ -3,33 +3,88 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply font-sans text-slate-100 selection:bg-emerald-700 selection:text-white;
-    background-color: #071a10;
+  html {
+    -webkit-tap-highlight-color: transparent;
   }
-
-  /* Entering info: form fields show readable black text instead of inheriting
-     the page's light text color (which was invisible on white inputs). */
+  body {
+    @apply font-sans text-ink antialiased;
+    background-color: #E9EFE4;
+  }
   input,
   select,
   textarea {
-    color: #000000;
+    @apply text-ink;
   }
-
-  .dark input,
-  .dark select,
-  .dark textarea {
-    color: #f1f5f9;
-  }
-  
-  /* Dark scrollbar everywhere */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(16, 185, 129, 0.2) transparent;
+    scrollbar-color: rgba(26, 128, 77, 0.25) transparent;
   }
 }
 
-/* Utility: hide scrollbar but keep scrolling */
+@layer components {
+  /* Buttons ------------------------------------------------------------- */
+  .fb-btn-primary {
+    @apply w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold text-[15px] rounded-xl px-5 py-3.5 shadow-[0_6px_16px_rgba(26,128,77,0.28)] transition disabled:opacity-50 disabled:shadow-none;
+  }
+  .fb-btn-outline {
+    @apply w-full flex items-center justify-center gap-2 bg-white hover:bg-brand-50 text-brand-700 border-2 border-brand-600 font-bold text-[15px] rounded-xl px-5 py-3 transition;
+  }
+  .btn-ghost {
+    @apply w-full flex items-center justify-center gap-1.5 text-[13.5px] font-bold text-muted hover:text-brand-700 transition py-2 disabled:opacity-50;
+  }
+
+  /* Fields -------------------------------------------------------------- */
+  .fb-field {
+    @apply w-full bg-white border border-line rounded-xl px-3.5 py-3 text-[14px] font-medium text-ink placeholder-slate-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-400/25 transition;
+  }
+  .fb-label {
+    @apply block text-[12.5px] font-bold text-ink mb-1.5;
+  }
+
+  /* Surfaces ------------------------------------------------------------ */
+  .fb-card {
+    @apply bg-white rounded-2xl border border-line p-4 shadow-[0_1px_3px_rgba(21,60,36,0.06)];
+  }
+  .fb-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10.5px] font-bold leading-none whitespace-nowrap;
+  }
+
+  /* Toggle switch ------------------------------------------------------- */
+  .fb-toggle {
+    @apply relative w-11 h-6 rounded-full transition-colors;
+  }
+  .fb-toggle-knob {
+    @apply absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform;
+  }
+}
+
+/* Animations ------------------------------------------------------------ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-in {
+  animation: fadeIn 0.18s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slideUp 0.22s ease-out;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.6); }
+  70% { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-pop {
+  animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Hide scrollbar but keep scrolling ------------------------------------- */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -38,71 +93,22 @@
   display: none;
 }
 
-/* Animate-in for modals */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
-}
-.animate-in {
-  animation: fadeIn 0.15s ease-out forwards;
-}
-.fade-in { animation-name: fadeIn; }
-
-/* Slide up for dropdown menus */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-slide-up {
-  animation: slideUp 0.15s ease-out;
-}
-
-/* Glassmorphism & Card surfaces */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 222, 211, 0.75);
-}
-
-.dark .glass-panel {
-  background: rgba(13, 19, 23, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(40, 56, 67, 0.6);
-}
-
-.lux-card {
-  @apply rounded-2xl transition-all duration-200 border;
-  background: #FFFFFF;
-  border-color: rgba(226, 222, 211, 0.9);
-  box-shadow: 0 4px 20px -2px rgba(27, 43, 34, 0.03), 0 2px 6px -1px rgba(27, 43, 34, 0.02);
-}
-
-.lux-card:hover {
-  box-shadow: 0 10px 30px -4px rgba(27, 43, 34, 0.06), 0 4px 10px -2px rgba(27, 43, 34, 0.03);
-}
-
-.dark .lux-card {
-  background: #0f161c;
-  border-color: rgba(40, 56, 67, 0.7);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-}
-
-.dark .lux-card:hover {
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
-}
-
-/* Leaflet Container customization */
+/* Leaflet --------------------------------------------------------------- */
 .leaflet-container {
   width: 100%;
   height: 100%;
-  border-radius: 1rem;
-  z-index: 10;
   font-family: inherit;
+  background: #e8f0e4;
+}
+.fb-marker {
+  background: transparent;
+  border: none;
+}
+.leaflet-control-attribution {
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.75);
 }
 
-/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -111,9 +117,6 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(140, 150, 160, 0.25);
+  background: rgba(93, 107, 97, 0.25);
   border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(140, 150, 160, 0.45);
 }
